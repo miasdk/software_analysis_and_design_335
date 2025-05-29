@@ -276,6 +276,60 @@ a ≡ 0 mod p OR b ≡ 0 mod p
 This property makes fields: structures where every non-zero element has a multiplicative inverse and no zero divisors exist.
 
 
+### What is GCD?
+
+The GCD of two integers a and b is the largest positive integer that divides both a and b without leaving a remainder.
+
+We write it as:
+
+gcd(a, b)
+
+#### Example
+
+Find gcd(18, 24):
+
+- Factors of 18: 1, 2, 3, 6, 9, 18  
+- Factors of 24: 1, 2, 3, 4, 6, 8, 12, 24  
+- Common factors: 1, 2, 3, 6  
+- Greatest common divisor: 6
+
+So:
+
+gcd(18, 24) = 6
+
+### Euclidean Algorithm (Fast Method)
+
+Instead of listing factors, use:
+
+gcd(a, b) = gcd(b, a mod b)
+
+Repeat until b = 0
+
+### Example: gcd(48, 18)
+
+1. 48 mod 18 = 12 ⇒ gcd(48, 18) = gcd(18, 12)  
+2. 18 mod 12 = 6  ⇒ gcd(18, 12) = gcd(12, 6)  
+3. 12 mod 6 = 0   ⇒ gcd(12, 6) = 6
+
+Answer: gcd(48, 18) = 6
+
+### Why GCD Matters
+
+- Simplifies fractions (reduce a/b using gcd)
+- Needed for modular inverse: a⁻¹ mod m exists iff gcd(a, m) = 1
+- Used to check if two numbers are coprime (gcd = 1)
+- Core in number theory and cryptography (e.g., RSA)
+
+### Properties of GCD
+
+- gcd(a, 0) = |a|
+- gcd(0, 0) is undefined
+- gcd(a, b) = gcd(b, a) (commutative)
+- gcd(a, b) = gcd(b, a mod b)
+- If gcd(a, b) = 1, then a and b are coprime
+
+
+
 ## Attribution
 
 This repository contains derivative work based on course materials by Professor Stewart Weiss for CSCI 335 at Hunter College, CUNY, Spring 2019.
