@@ -329,6 +329,135 @@ Answer: gcd(48, 18) = 6
 - If gcd(a, b) = 1, then a and b are coprime
 
 
+### Brute Force Method
+1. Start from min(a, b)
+2. Check each integer downward to see if it divides both a and b
+3. First match is the GCD
+
+### Steps Required (Worst Case)
+
+- In the worst case, we start from min(a, b) and count down to 1
+- So the number of steps is up to:
+
+O(min(a, b))
+
+### Example
+
+Find gcd(1000000, 3):
+
+- Brute-force would check:
+  - Is 3 a divisor of 1000000? No  
+  - 2? No  
+  - 1? Yes  
+- Took 3 steps here, but could take up to 999,999 steps in general
+
+### Euclidean Algorithm
+
+Repeatedly apply:
+
+gcd(a, b) = gcd(b, a mod b)
+
+until remainder = 0
+
+### Steps Required (Worst Case)
+
+- Each step reduces the size of the smaller number
+- Worst-case number of steps is:
+
+O(log min(a, b))
+
+### Example
+
+Find gcd(1000000, 3):
+
+1. 1000000 mod 3 = 1 → gcd(3, 1)
+2. 3 mod 1 = 0 → done
+
+Only 2 steps
+
+### Summary Table
+
+| Method          | Worst-Case Steps            | Efficiency       |
+|-----------------|-----------------------------|------------------|
+| Brute Force     | O(min(a, b))                | Slow (linear)    |
+| Euclidean Algo  | O(log min(a, b))            | Fast (logarithmic) |
+
+
+### Why the Euclidean Algorithm Is Logarithmic (O(log n))
+
+Show that the number of steps in the Euclidean algorithm for gcd(a, b) is at most:
+
+O(log min(a, b))
+
+## Key Idea: Fast Decrease in Remainders
+
+Each step of the Euclidean algorithm does:
+
+gcd(a, b) → gcd(b, a mod b)
+
+This means you're replacing (a, b) with (b, a mod b) where:
+
+a mod b < b
+
+So the second number strictly decreases, and fairly quickly.
+
+## Real-World Intuition
+
+- Suppose b is a number with d digits.
+- Then Euclidean algorithm will take at most about 2d steps — i.e., grows with the number of digits, not the number itself.
+
+That’s what we mean when we say:
+
+Time complexity = O(log b)
+
+
+### Selection Sort Analysis using Arithmetic Series
+```c
+void selection_sort(int* arr, int size)
+{
+  for(int i=size-1;i>0;i++)
+  {
+    int max_index=0;
+    for(intj=1;j<=i;j++)
+      if(arr[j]>arr[max_index]) max_index=j;
+    std::swap(arr[i],arr[max_index]);
+  }
+}
+```
+#### Breakdown
+* The coefficient for j is the number of steps it takes the inner for loop to run. The for loop on its own has a cost of 2 steps for each iteration(update j, check condition). The check to find the max in each iteration ```if(arr[j]>arr[max_index]) max_index=j;``` which is 1 step for the check and 1 step for the assignment. In total we get a coefficient of 4. 
+* Now we must compute the cost for each iteration of the outer for loop(variable i). Here we get 2 steps for each iteration of the outer for loop and 1 step for ```int max_index=0``` and 1 step for ```std::swap(arr[i],arr[max_index]);```. SInce the inner for loop runs inside the outer for loop we must add 4j. So, for each iteration of the outer for loop it will cost us $4j+4$
+* Lastly, we just need to sum up the number of steps each iteration of the outer for loop cost. Note that j runs from 1 to i on the first iteration, 1 to i-1 on the second, and so on until i is equal to 1 and j is equal to 1. Thus, we can use a summation to compute the steps as shown below.
+
+
+$$
+\sum_{j=1}^{i} (4j + 4) = \sum_{j=0}^{i-1} (4(j+1) + 4)=\sum_{j=0}^{i-1} (4j + 8)= 4\frac{i-1(i)}{2} + 8i
+$$
+The analysis above counts the number of steps it takes in the worst case to run the selection sort algorithm. It is assumed that ```std::swap()``` has a cost of 1 step.
+
+It is good practice to write our formula in terms of the input size n, instead of i. In the case for the seelction sort the input size will be the size of the array. According to our outer for loop in the code, you can observe that i=n-1. So we can just replace i with n-1 in the formula above to get:
+$$
+4\frac{i-1(i)}{2} + 8i=4\frac{n-2(n-1)}{2} + 8(n-1)
+$$
+
+Let c(n) be the number of steps it takes for the algorithm selection sort to complete in the worst case for an array of size n.
+$$
+c(n)=4\frac{n-2(n-1)}{2} + 8(n-1)
+$$
+
+* n=1, c(n)=0
+* n=2, c(n)=8
+* n=3, c(n)=20
+* n=4, c(n)=36
+* and so on
+
+
+We will cover this in further detail later, but we can describe c(n) in terms of big notation:
+$$
+c(n)=4\frac{n-2(n-1)}{2} + 8(n-1) \in O(n^2)
+$$
+
+
 
 ## Attribution
 
