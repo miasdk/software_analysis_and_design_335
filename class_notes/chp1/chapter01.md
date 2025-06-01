@@ -1,10 +1,8 @@
-# Chapter 1. Preliminaries for CSci 335
-
-## 1 Mathematical Preliminaries
+# Chapter 1. Mathematical Preliminaries
 
 This is the math that you are required to know for the remainder of the course. It is extremely important that you commit these formulae to memory and know how to apply them in practice, because they do arise often in the study of algorithmic analysis, and in computer science in general.
 
-### 1.1 Series Summations
+## Series Summations
 
 **Arithmetic Series**  
 The formula for an arithmetic series is
@@ -128,7 +126,7 @@ $$
 \sum_{k=0}^{n} k \cdot 2^k = 2 + (n - 1) 2^{n+1}
 $$
 
-### 1.2 Modular Arithmetic (Congruences)
+## Modular Arithmetic (Congruences)
 
 In mathematics, ( $a \equiv b \mod N$ ) means ( a - b ) is divisible by ( N ). This is equivalent to saying that ( a \% N = b \% N ).
 
@@ -150,13 +148,13 @@ Only when ( N ) is a prime number ( p ), does the set ( \{0, 1, ..., p - 1\} ) f
 
 ### Modular Arithmetic as Partitioning the Integers
 
-#### Core Idea
+### Core Idea
 
 Modulo m partitions the integers ℤ into m equivalence classes, where each class contains all numbers that leave the same remainder when divided by m.
 
 This is the set ℤ/mℤ (integers modulo m).
 
-#### What is a Partition?
+### What is a Partition?
 
 A partition of a set divides it into non-overlapping subsets (called equivalence classes) such that:
 - Every element belongs to exactly one class.
@@ -167,7 +165,7 @@ In modular arithmetic:
 
 This is an equivalence relation (reflexive, symmetric, transitive).
 
-#### Example: Modulo 4
+### Example: Modulo 4
 
 Let’s look at ℤ mod 4. The set ℤ is partitioned into 4 classes:
 
@@ -178,7 +176,7 @@ Let’s look at ℤ mod 4. The set ℤ is partitioned into 4 classes:
 
 Each class contains all integers that give the same remainder when divided by 4.
 
-#### These Are the Equivalence Classes
+### These Are the Equivalence Classes
 
 We write:
 
@@ -189,17 +187,14 @@ Where:
 - [a] is the equivalence class of all integers congruent to a mod 4
 - So [5] = [1] because 5 ≡ 1 mod 4
 
-#### Why It Matters
+### Why It Matters
 
 - This structure is used in modular rings in abstract algebra.
 - Helps define arithmetic operations on equivalence classes (not just numbers).
 - You can think of [a] + [b] = [a + b], etc.
 
 
-
 ### Multiplicative Inverse Modulo m
-
-#### Definition
 
 The multiplicative inverse of a number `a` modulo `m` is a number `x` such that:
 
@@ -232,9 +227,7 @@ So:
 
 3⁻¹ ≡ 5 (mod 7)
 
-## Non-Zero Products Being Congruent to Zero (Zero Divisors)
-
-### Statement
+### Non-Zero Products Being Congruent to Zero (Zero Divisors)
 
 In modular arithmetic, it’s possible for:
 
@@ -284,7 +277,7 @@ We write it as:
 
 gcd(a, b)
 
-#### Example
+### Example
 
 Find gcd(18, 24):
 
@@ -389,7 +382,7 @@ Show that the number of steps in the Euclidean algorithm for gcd(a, b) is at mos
 
 O(log min(a, b))
 
-## Key Idea: Fast Decrease in Remainders
+### Key Idea: Fast Decrease in Remainders
 
 Each step of the Euclidean algorithm does:
 
@@ -401,7 +394,7 @@ a mod b < b
 
 So the second number strictly decreases, and fairly quickly.
 
-## Real-World Intuition
+### Real-World Intuition
 
 - Suppose b is a number with d digits.
 - Then Euclidean algorithm will take at most about 2d steps — i.e., grows with the number of digits, not the number itself.
@@ -411,7 +404,7 @@ That’s what we mean when we say:
 Time complexity = O(log b)
 
 
-### Selection Sort Analysis using Arithmetic Series
+## Selection Sort Analysis using Arithmetic Series
 ```c
 void selection_sort(int* arr, int size)
 {
@@ -456,7 +449,6 @@ We will cover this in further detail later, but we can describe c(n) in terms of
 $$
 c(n)=4\frac{n-2(n-1)}{2} + 8(n-1) \in O(n^2)
 $$
-
 
 
 ## Attribution
