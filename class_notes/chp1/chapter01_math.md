@@ -462,7 +462,7 @@ Proofs are important. When we make a claim that something is true, we have to pr
 We describe and give examples of each. 
 ### Proof that gcd(a, b) = gcd(b, a mod b) (direct)
 
-#### Let a and b be integers with b ≠ 0
+#### Let a and b be integers with b $\neq$ 0
 
 We want to prove:
 
@@ -521,8 +521,6 @@ The set of common divisors of (a, b) is the same as the set of common divisors o
 Hence, the greatest common divisor is the same:
 
 gcd(a, b) = gcd(b, a mod b)
-
-Since the sequence of numbers $gcd$
 
 
 ### Why Repeatedly Applying gcd(a, b) = gcd(b, a mod b) Yields the GREATEST Common Divisor
