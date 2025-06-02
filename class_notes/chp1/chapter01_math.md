@@ -451,8 +451,218 @@ c(n)=4\frac{n-2(n-1)}{2} + 8(n-1) \in O(n^2)
 $$
 
 
-## Attribution
+## Proofs
+Proofs are important. When we make a claim that something is true, we have to prove that it is true. Although there are philosophical arguments about what constitutes a proof, we will restrict this discussion to methods of proof that no one disputes are valid. Three such methods of proof can be used to solve most problems:
 
+1. direct proof, 
+2. proof by mathematical induction,  
+3. proof by contradiction, and  
+4. proof by counterexample.
+
+We describe and give examples of each. 
+### Proof that gcd(a, b) = gcd(b, a mod b) (direct)
+
+#### Let a and b be integers with b ≠ 0
+
+We want to prove:
+
+gcd(a, b) = gcd(b, a mod b)
+
+Let r = a mod b
+
+By the Division Algorithm, there exist integers q and r such that:
+
+a = bq + r   with  0 ≤ r < |b|
+
+Therefore:
+
+r = a - bq
+
+### Step 1: Show that any common divisor of a and b is also a divisor of b and r
+
+Suppose d divides both a and b:
+- d | a
+- d | b
+
+Then:
+
+d | (a - bq) ⇒ d | r
+
+So d divides both b and r
+
+Therefore:
+
+Every common divisor of a and b is a common divisor of b and r
+
+### Step 2: Show that any common divisor of b and r is also a divisor of a and b
+
+Suppose d divides both b and r:
+- d | b
+- d | r
+
+Recall:
+
+a = bq + r
+
+Then:
+
+d | (bq + r) ⇒ d | a
+
+So d divides both a and b
+
+Therefore:
+
+Every common divisor of b and r is a common divisor of a and b
+
+### Step 3: Conclusion
+
+The set of common divisors of (a, b) is the same as the set of common divisors of (b, r)
+
+Hence, the greatest common divisor is the same:
+
+gcd(a, b) = gcd(b, a mod b)
+
+Since the sequence of numbers $gcd$
+
+
+### Why Repeatedly Applying gcd(a, b) = gcd(b, a mod b) Yields the GREATEST Common Divisor
+
+Each step:
+
+gcd(a, b) = gcd(b, a mod b)
+
+**preserves the set of common divisors**.  
+So you’re not losing or gaining any divisors — just rewriting the problem with **smaller numbers**.
+
+### What the algorithm does
+
+You apply:
+
+gcd(a₀, b₀) = gcd(b₀, r₁)
+            = gcd(r₁, r₂)
+            = ...
+            = gcd(rₙ₋₁, rₙ)
+
+until eventually:
+
+rₙ = 0
+
+At that point:
+
+gcd(rₙ₋₁, 0) = rₙ₋₁
+
+That last nonzero number is your answer.
+
+### Why is the last nonzero remainder the GREATEST common divisor?
+
+Let’s say the steps ended with:
+
+gcd(a, b) = gcd(b, r) = ... = gcd(d, 0)
+
+Then:
+
+- d | 0 (by definition)
+- We already know (by previous steps) that d divides all earlier remainders
+- And we know from the identity that the set of common divisors hasn't changed at each step
+
+So:
+- d divides both a and b
+- And no number larger than d can divide both a and b, because d is the **last nonzero remainder**, and all previous remainders were reduced versions of the same GCD
+
+Hence:
+d = GREATEST common divisor of a and b
+
+### Quick Example
+
+Let’s find gcd(30, 12):
+
+30 mod 12 = 6 → gcd(30, 12) = gcd(12, 6)  
+12 mod 6 = 0 → gcd(12, 6) = gcd(6, 0)
+
+So:
+gcd(30, 12) = 6
+
+And 6 is:
+- The largest number that divides both 30 and 12
+- The last nonzero remainder
+
+#### Summary
+
+- The identity gcd(a, b) = gcd(b, a mod b) keeps the set of common divisors unchanged
+- Each step makes the numbers smaller
+- When one becomes 0, the other is the greatest common divisor — because it still divides both, and no larger number could
+
+
+---
+
+### Induction
+
+Suppose a statement S can be formulated as depending on a single non-negative integer n. A proof of S by mathematical induction has two parts: a base case that establishes that S(n) is true for a finite number of values of n, typically that it is true for $n = 0$, and an inductive argument that shows that if S is true for arbitrary $k$, then it is also true for $k + 1$. I.e., $S(k) \Rightarrow S(k + 1)$.
+
+We demonstrate this method by proving the equation:
+
+$$\sum_{k=1}^{n} k^2 = \frac{n(n + 1)(2n + 1)}{6}$$
+
+**Base Case:** $n = 0$  
+LHS: 0  
+RHS: 0  
+So, base case is true.
+
+**Inductive Hypothesis:** Assume the formula holds for $n = N$:  
+$$\sum_{k=0}^{N} k^2 = \frac{N(N + 1)(2N + 1)}{6}$$
+
+**Inductive Step:** Prove for $n = N + 1$:  
+$$\sum_{k=0}^{N+1} k^2 = \sum_{k=0}^{N} k^2 + (N + 1)^2$$  
+$$= \frac{N(N + 1)(2N + 1)}{6} + (N + 1)^2$$  
+$$= (N + 1)\left[\frac{N(2N + 1)}{6} + (N + 1)\right]$$  
+$$= (N + 1)\left(\frac{2N^2 + 7N + 6}{6}\right)$$  
+$$= \frac{(N + 1)(N + 2)(2N + 3)}{6}$$  
+$$= \frac{(N + 1)((N + 1) + 1)(2(N + 1) + 1)}{6}$$
+
+Which matches the original formula with $n = N + 1$. Therefore, by induction, the formula holds for all non-negative integers $n$.
+
+---
+
+### Contradiction
+
+In a proof by contradiction, we assume the statement to be proved true is false, then show this assumption leads to a contradiction.
+
+Let S be the statement. Assume $\neg S$ is true.  
+If $\neg S$ leads to a contradiction (like $R \land \neg R$), then $\neg S$ is false, so S must be true.
+
+**Example:** Prove $\sqrt{2}$ is irrational.
+
+Assume $\sqrt{2}$ is rational.  
+Then there exist integers p and q (gcd(p, q) = 1), such that $(p/q)^2 = 2$ <br>
+$\Rightarrow p^2 = 2q^2 \Rightarrow p^2$ is even <br>
+$\Rightarrow p$ is even $\Rightarrow p = 2m$ <br>
+$\Rightarrow p^2 = 4m^2$ <br>
+Then $4m^2 = 2q^2 \Rightarrow q^2 = 2m^2 \Rightarrow q$ is even <br> 
+So both p and q are even $\Rightarrow$ contradiction with $\gcd(p, q) = 1$ <br>
+Thus, $\sqrt{2}$ is irrational.
+
+---
+
+### Counterexample
+
+Universal statements are of the form: "For every $x$, $P(x)$ is true."  
+To disprove such a statement, find a single counterexample.
+
+**Example:** "Every month has 31 days"  
+Counterexample: April has only 30 days
+
+**Another example:**  
+Fibonacci sequence:  
+$F_0 = 1, F_1 = 1, F_{n+2} = F_{n+1} + F_n$ <br>
+Claim: $\forall k, F_k \leq k^2$  
+Disproof: <br> 
+$F_{11} = 144, 11^2 = 121$ <br>  
+$144 > 121 \Rightarrow$ counterexample
+
+Therefore, the statement is false.
+
+
+## Attribution
 This repository contains derivative work based on course materials by Professor Stewart Weiss for CSCI 335 at Hunter College, CUNY, Spring 2019.
 
 Original materials are available at: [https://www.cs.hunter.cuny.edu/~sweiss/course_materials/csci335/csci335_s19.php](https://www.cs.hunter.cuny.edu/~sweiss/course_materials/csci335/csci335_s19.php)
