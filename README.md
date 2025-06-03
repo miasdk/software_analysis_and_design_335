@@ -8,3 +8,5 @@
 
 ## some other notes
 * project 2 idea: maybe avl tree hash table
+* kryptography when we cover hash maps ?
+* make and cmake ?
