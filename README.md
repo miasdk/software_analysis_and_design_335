@@ -8,7 +8,7 @@
 * Final: 07/08
 
 ## project ideas
-* project 2 idea: maybe avl tree hash table
+* project 2 idea: maybe avl tree hash table, cmake/make
 
 
 ## Topics for the midterm (06/18)
