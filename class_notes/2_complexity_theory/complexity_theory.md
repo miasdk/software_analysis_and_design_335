@@ -240,12 +240,14 @@ In simple cases (uniform probability), t_avg and t_expected may be the same, but
 Suppose we have a function that finds the maximum element in an array of n elements:
 
 ```cpp
-int find_max(vector<int> arr):
+int find_max(vector<int> arr)
+{
     int max_val = arr[0];
     for(auto& val: arr)
         if (val > max_val) 
             max_val = val;
     return max_val;
+}
 ```
 
 **Best-case Time:**<br>
@@ -294,11 +296,13 @@ Summary Comparison
 We define the following linear search function:
 
 ```cpp
-int find_string(vector<int> arr, string target):
+int find_string(vector<int> arr, string target)
+{
     for(int i =0; i<arr.size(); i++)
         if (arr[i] == target)
             return i;
     return -1;
+}
 ```
 
 This searches from left to right and returns the index if the target string is found, or -1 if not.
@@ -423,7 +427,8 @@ The maximum sum is `6` from subsequence `[1, 5]`.
 ### Brute Force Solution (O(n³))
 
 ```cpp
-int maxSubSeqSum(const vector<int> & a) {
+int maxSubSeqSum(const vector<int> & a) 
+{
     int max = 0;
     for (int i = 0; i < a.size(); i++)
         for (int j = i; j < a.size(); j++) {
@@ -446,7 +451,8 @@ int maxSubSeqSum(const vector<int> & a) {
 ### Divide and Conquer (O(n log n))
 
 ```cpp
-int maxSumRec(const vector<int> & a, int left, int right) {
+int maxSumRec(const vector<int> & a, int left, int right) 
+{
     if (left == right)
         return a[left] > 0 ? a[left] : 0;
 
@@ -468,11 +474,7 @@ int maxSumRec(const vector<int> & a, int left, int right) {
             maxRightBorderSum = rightBorderSum;
     }
 
-    return max3(maxLeftSum, maxRightSum, maxLeftBorderSum + maxRightBorderSum);
-}
-
-int maxSubSum3(const vector<int> & a) {
-    return maxSumRec(a, 0, a.size() - 1);
+    return max({maxLeftSum, maxRightSum, maxLeftBorderSum + maxRightBorderSum});
 }
 ```
 A more effcient solution can be obtained from the following observation:
@@ -514,15 +516,15 @@ T(N) &= 2T(N/2) + cN \\
 \end{align*}
 $$
 
-The telescoping stops when ( \frac{N}{2^k} = 1 ), which implies ( N = 2^k ) or ( k = \log_2 N ).
+The telescoping stops when ( $\frac{N}{2^k} = 1$ ), which implies ( $N = 2^k$ ) or ( $k = \log_2 N$ ).
 
-Substituting ( k = \log_2 N ) into equation (1):
+Substituting ( $k = \log_2 N$ ) into equation (1):
 
 $$
 \begin{align*}
 T(N) &= 2^{\log_2 N} \cdot T(1) + \log_2 N \cdot cN \\
 &= N + cN \log_2 N \\
-&\in \mathcal{O}(N + N \log N)
+&\in \mathcal{O}(N + N \log N) \Rightarrow \mathcal{O}(N \log N) 
 \end{align*}
 $$
 
@@ -531,9 +533,11 @@ $$
 ### Linear Time Solution (Kadane's Algorithm, O(n))
 
 ```cpp
-int maxSubSum4(const vector<int> & a) {
+int maxSubSum4(const vector<int> & a) 
+{
     int maxSum = 0, thisSum = 0;
-    for (int j = 0; j < a.size(); j++) {
+    for (int j = 0; j < a.size(); j++) 
+    {
         thisSum += a[j];
         if (thisSum > maxSum)
             maxSum = thisSum;
