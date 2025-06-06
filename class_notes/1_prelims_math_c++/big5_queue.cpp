@@ -166,13 +166,29 @@ int main()
     q2.push(11);
     q2.push(22);
     q2.push(33);
-    cout<<"q2: "<<q2.back()<<endl;
 
-    //q2=q1; //copy assignment
-    q2=move(q1);//move assignment
+    try 
+    {
+        cout<<"q2: "<<q2.back()<<endl;
 
-    cout<<"q2: "<<q2.back()<<endl;
-    cout<<"q1: "<<q1.back()<<endl;
+        //q2=q1; //copy assignment
+        q2=move(q1);//move assignment
+
+        cout<<"q2: "<<q2.back()<<endl;
+        cout<<"q1: "<<q1.back()<<endl;
+    } 
+    
+    catch (const std::out_of_range& e) 
+    {
+        std::cerr << "Caught an out_of_range exception: " << e.what() << std::endl;
+    } 
+    
+    catch (...) 
+    {
+        std::cerr << "Caught some other exception" << std::endl;
+    }
+
+    
 
     return 0;
 }
