@@ -294,6 +294,52 @@ int main() {
 }
 ```
 
+### **Alternative: Adjacency Matrix Implementation**
+```cpp
+class GraphMatrix {
+private:
+    int numVertices;
+    int adjMatrix[10][10];  // 2D array (fixed size for exam simplicity)
+    
+public:
+    // Constructor - Initialize all edges to 0
+    GraphMatrix(int vertices) : numVertices(vertices) {
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = 0; j < numVertices; j++) {
+                adjMatrix[i][j] = 0;  // No edge initially
+            }
+        }
+    }
+    
+    // Add edge - Set matrix position to 1
+    void addEdge(int u, int v) {
+        adjMatrix[u][v] = 1;  // Edge from u to v
+        adjMatrix[v][u] = 1;  // Edge from v to u (undirected)
+    }
+    
+    // Display - Print the matrix
+    void display() {
+        std::cout << "Adjacency Matrix:" << std::endl;
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = 0; j < numVertices; j++) {
+                std::cout << adjMatrix[i][j] << " ";
+            }
+            std::cout << std::endl;
+        }
+    }
+};
+
+// Same main function works for both implementations!
+```
+
+**📊 Quick Comparison:**
+| Aspect | Adjacency List | Adjacency Matrix |
+|--------|---------------|------------------|
+| **Data Structure** | `vector<vector<int>>` | `int matrix[V][V]` |
+| **Add Edge** | `list[u].push_back(v)` | `matrix[u][v] = 1` |
+| **Space** | O(V + E) | O(V²) |
+| **Best For** | Sparse graphs | Dense graphs, fast edge lookup |
+
 ### **Weighted Graph Variation:**
 ```cpp
 class WeightedGraph {
