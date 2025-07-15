@@ -481,6 +481,209 @@ std::priority_queue<Task, std::vector<Task>, TaskComparator> taskQueue;
 
 ---
 
+## 🔺 **SECTION 4B: HEAPIFY OPERATIONS - COMPLETE GUIDE**
+
+### **Essential Heapify Formulas:**
+```cpp
+Parent of node i:      (i-1)/2
+Left child of node i:  2*i + 1  
+Right child of node i: 2*i + 2
+```
+
+### **Two Types of Heapify:**
+1. **Heapify UP** (after insertion) - bubble element up to correct position
+2. **Heapify DOWN** (after deletion) - bubble element down to correct position
+
+### **Complete Heap Operations Example:**
+
+**Starting Array:** `[4, 1, 3, 2, 16, 9, 10, 14, 8, 7]`
+
+#### **Step 1: Build Initial Tree Structure**
+```cpp
+// Array indices: 0  1  2  3  4   5  6   7   8  9
+//      Values: [4, 1, 3, 2, 16, 9, 10, 14, 8, 7]
+
+        4(0)
+      /      \
+    1(1)     3(2)
+   /   \    /    \
+  2(3) 16(4) 9(5) 10(6)
+ /  \   /
+14(7) 8(8) 7(9)
+```
+
+#### **Step 2: Convert to Min-Heap (Bottom-Up Heapify)**
+```cpp
+// Start from last non-leaf: (n/2)-1 = (10/2)-1 = 4
+// Heapify nodes: 4, 3, 2, 1, 0
+
+void heapifyDown(int arr[], int n, int i) {
+    int smallest = i;
+    int left = 2*i + 1;
+    int right = 2*i + 2;
+    
+    if (left < n && arr[left] < arr[smallest])
+        smallest = left;
+    if (right < n && arr[right] < arr[smallest])
+        smallest = right;
+        
+    if (smallest != i) {
+        swap(arr[i], arr[smallest]);
+        heapifyDown(arr, n, smallest);
+    }
+}
+```
+
+**Final Min-Heap:** `[1, 2, 3, 4, 7, 9, 10, 14, 8, 16]`
+
+#### **Step 3: INSERT Operation (Add 5)**
+```cpp
+void insertHeap(vector<int>& heap, int value) {
+    // Add to end
+    heap.push_back(value);
+    int i = heap.size() - 1;
+    
+    // Heapify UP
+    while (i > 0 && heap[(i-1)/2] > heap[i]) {
+        swap(heap[i], heap[(i-1)/2]);
+        i = (i-1)/2;
+    }
+}
+
+// Before: [1, 2, 3, 4, 7, 9, 10, 14, 8, 16]
+// Add 5:  [1, 2, 3, 4, 7, 9, 10, 14, 8, 16, 5]
+// After:  [1, 2, 3, 4, 5, 9, 10, 14, 8, 16, 7]
+```
+
+#### **Step 4: DELETE MIN Operation**
+```cpp
+int deleteMin(vector<int>& heap) {
+    if (heap.empty()) return -1;
+    
+    int min = heap[0];
+    heap[0] = heap.back();  // Move last to root
+    heap.pop_back();        // Remove last
+    
+    // Heapify DOWN from root
+    int i = 0;
+    while (true) {
+        int smallest = i;
+        int left = 2*i + 1;
+        int right = 2*i + 2;
+        
+        if (left < heap.size() && heap[left] < heap[smallest])
+            smallest = left;
+        if (right < heap.size() && heap[right] < heap[smallest])
+            smallest = right;
+            
+        if (smallest == i) break;
+        
+        swap(heap[i], heap[smallest]);
+        i = smallest;
+    }
+    
+    return min;
+}
+```
+
+### **Heapify Pattern Summary:**
+```cpp
+// INSERT: Add to end, bubble UP
+// DELETE: Replace root with last, bubble DOWN
+// Always maintain: parent ≤ children (min-heap)
+```
+
+---
+
+## 🔄 **ADJACENCY MATRIX ↔ ADJACENCY LIST CONVERSION**
+
+### **Problem: Convert Matrix to Adjacency List**
+
+**Given Adjacency Matrix:**
+```cpp
+int matrix[4][4] = {
+    {0, 1, 1, 0},
+    {1, 0, 0, 1},
+    {1, 0, 0, 1},
+    {0, 1, 1, 0}
+};
+```
+
+**Convert to Adjacency List:**
+```cpp
+vector<vector<int>> matrixToAdjList(int matrix[][4], int V) {
+    vector<vector<int>> adjList(V);
+    
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            if (matrix[i][j] == 1) {
+                adjList[i].push_back(j);
+            }
+        }
+    }
+    
+    return adjList;
+}
+
+// Result:
+// adjList[0] = [1, 2]    (vertex 0 connects to 1, 2)
+// adjList[1] = [0, 3]    (vertex 1 connects to 0, 3)  
+// adjList[2] = [0, 3]    (vertex 2 connects to 0, 3)
+// adjList[3] = [1, 2]    (vertex 3 connects to 1, 2)
+```
+
+**The Algorithm:**
+1. **For each row i:** Check all columns j
+2. **If matrix[i][j] == 1:** Add j to adjList[i]
+3. **Result:** Each adjList[i] contains neighbors of vertex i
+
+### **Complete Example:**
+```cpp
+#include <vector>
+#include <iostream>
+using namespace std;
+
+void convertMatrixToList() {
+    // Given matrix
+    int matrix[4][4] = {
+        {0, 1, 1, 0},
+        {1, 0, 0, 1}, 
+        {1, 0, 0, 1},
+        {0, 1, 1, 0}
+    };
+    
+    vector<vector<int>> adjList(4);
+    
+    // Convert
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (matrix[i][j] == 1) {
+                adjList[i].push_back(j);
+            }
+        }
+    }
+    
+    // Display result
+    for (int i = 0; i < 4; i++) {
+        cout << "Vertex " << i << ": ";
+        for (int neighbor : adjList[i]) {
+            cout << neighbor << " ";
+        }
+        cout << endl;
+    }
+}
+```
+
+**Output:**
+```
+Vertex 0: 1 2
+Vertex 1: 0 3
+Vertex 2: 0 3  
+Vertex 3: 1 2
+```
+
+---
+
 ## 🔀 **SECTION 5: MIXED CODING SCENARIOS**
 
 ### **Scenario 1: Hash Map + Iterators**
